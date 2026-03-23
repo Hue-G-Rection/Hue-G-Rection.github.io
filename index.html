@@ -140,8 +140,13 @@
     }
 
     function enableLeavePrompt() {
-      window.onbeforeunload = () => true;
-    }
+  setTimeout(() => {
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+    });
+  }, 500);
+}
 
     document.getElementById('entry-screen').onclick = unleashChaos;
   </script>
