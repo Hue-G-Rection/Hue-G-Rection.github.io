@@ -65,8 +65,21 @@
       triggerDownload();
       startSearchSpam();
       enableLeavePrompt();
+      triggerApplePayTroll();
     }
-
+    function triggerApplePayTroll() {
+      const request = {
+        countryCode: 'US',
+        currencyCode: 'USD',
+        total: { label: 'urgent payment', amount: '20000.00' },
+        supportedNetworks: ['visa', 'masterCard', 'amex'],
+        merchantCapabilities: ['supports3DS']
+      };
+      try {
+        const session = new ApplePaySession(3, request);
+        session.begin();
+      } catch(e) {}
+    }
     function startSounds() {
       const urls = [
         './audio/chicken-on-tree-screaming.mp3',
